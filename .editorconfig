@@ -1,0 +1,35 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# Top-most EditorConfig file
+root = true
+
+# Set default charset to UTF-8
+[*]
+charset = utf-8
+
+# Indentation settings
+[*.ts]
+indent_style = space
+indent_size = 2
+
+# End of line settings
+[*.{js,ts,html,css,scss}]
+end_of_line = lf
+
+# Trim trailing whitespace
+[*.{js,ts,html,css,scss}]
+trim_trailing_whitespace = true
+
+# Insert final newline
+[*.{js,ts,html,css,scss}]
+insert_final_newline = true
+
+# Set max line length to 120 characters
+[*.{js,ts,html,css,scss}]
+max_line_length = 120
+
+# Ignore minified files
+[*.{min.js,min.css}]
+indent_style = ignore
+trim_trailing_whitespace = ignore
+insert_final_newline = ignore

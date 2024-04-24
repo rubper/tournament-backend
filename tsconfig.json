@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "strict": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true, // we dont want to use any, we want to be explicit
+    "strictNullChecks": true, // if we use null, we know something was meant to be there, but its not, so we can handle it, unlike using undefined since we dont know what was meant to be there to begin with
+    "strictFunctionTypes": true, // if we have a function that returns a string, we shouldnt be able to return a number
+    "forceConsistentCasingInFileNames": true, // we want consistency in the whole project
+    "noUnusedLocals": true, // we dont want to have unused variables cluttering our code
+    "allowUnreachableCode": false, // unreachable code is a huge sign of bugs in the code, and its code that wasn't meant to be there
+    "strictPropertyInitialization": true, // we want to make sure that all properties are initialized in the constructor so we dont have to worry about them being undefined
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+  }
+}
