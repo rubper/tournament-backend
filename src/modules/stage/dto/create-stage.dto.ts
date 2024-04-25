@@ -1,4 +1,4 @@
-import { StageStatus } from "src/constants/stage-status.constant";
+import { StageStatus } from 'src/constants/stage-status.constant';
 
 export interface CreateStageDto {
   stage: string;

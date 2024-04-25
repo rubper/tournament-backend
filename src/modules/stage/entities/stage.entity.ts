@@ -1,8 +1,8 @@
+import { Like } from 'typeorm';
 import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
 import { StageModel } from 'src/models/stage.model';
 import { StageStatus } from 'src/constants/stage-status.constant';
-import { Like } from 'typeorm';
 
 @Entity()
 export class Stage extends BaseEntity implements StageModel {

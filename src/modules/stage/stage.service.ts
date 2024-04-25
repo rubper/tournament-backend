@@ -22,14 +22,22 @@ export class StageService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} stage`;
+    return Stage.findOne({where: {id}});
+  }
+
+  findOneByStage(stage: string) {
+    return Stage.findByStage(stage);
   }
 
   update(id: number, updateStageDto: UpdateStageDto) {
-    return `This action updates a #${id} stage`;
+    return Stage.update(id, updateStageDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} stage`;
+    return Stage.delete(id);
+  }
+
+  removeByStage(stage: string) {
+    return Stage.delete({stage});
   }
 }
