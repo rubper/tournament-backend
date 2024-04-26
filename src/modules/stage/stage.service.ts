@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { Repository } from 'typeorm';
+
+import { Stage } from './entities/stage.entity';
 import { CreateStageDto } from './dto/create-stage.dto';
 import { UpdateStageDto } from './dto/update-stage.dto';
-import { Stage } from './entities/stage.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class StageService {
-  constructor(
-    @InjectRepository(Stage) private stageRepository: Repository<Stage>
-  ) {}
+  constructor(@InjectRepository(Stage) private stageRepository: Repository<Stage>) {}
   create(createStageDto: CreateStageDto) {
     const stage = new Stage();
     stage.stage = createStageDto.stage;
@@ -18,7 +18,7 @@ export class StageService {
     return this.stageRepository.save(stage);
   }
 
-  findAll(index? : number, limit? : number) {
+  findAll(index?: number, limit?: number) {
     if (index && limit) {
       return this.stageRepository.find({ skip: index, take: limit });
     } else {
@@ -27,11 +27,11 @@ export class StageService {
   }
 
   findOne(id: number) {
-    return this.stageRepository.findOne({where: {id}});
+    return this.stageRepository.findOne({ where: { id } });
   }
 
   findOneByStage(stage: string) {
-    return this.stageRepository.findOne({where: {stage}});
+    return this.stageRepository.findOne({ where: { stage } });
   }
 
   update(id: number, updateStageDto: UpdateStageDto) {
@@ -43,6 +43,6 @@ export class StageService {
   }
 
   removeByStage(stage: string) {
-    return this.stageRepository.delete({stage});
+    return this.stageRepository.delete({ stage });
   }
 }
