@@ -1,3 +1,16 @@
-import { CreateMatchDto } from './create-match.dto';
+export interface UpdateMatchDto {
+  data: {
+    type: string;
+    attributes: {
+      match: UpdateMatchDetail[];
+      tie: boolean;
+    };
+  }
+}
 
-export type UpdateMatchDto = Partial<CreateMatchDto>;
+export interface UpdateMatchDetail {
+  participant_id: string;
+  score_set: string;
+  rank: number;
+  advancing: boolean;
+}

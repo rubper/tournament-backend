@@ -1,34 +1,37 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { MatchService } from './match.service';
-import { CreateMatchDto } from './dto/create-match.dto';
+import { Controller, Get, Body, Patch, Param } from '@nestjs/common';
+
 import { UpdateMatchDto } from './dto/update-match.dto';
+import { MatchService, MatchState } from './match.service';
 
 @Controller('match')
 export class MatchController {
   constructor(private readonly matchService: MatchService) {}
 
-  @Post()
-  create(@Body() createMatchDto: CreateMatchDto) {
-    return this.matchService.create(createMatchDto);
+  @Get(':tournamentId/matches')
+  findAll(@Param('tournamentId') tournamentId: string) {
+    return this.matchService.getMatches(tournamentId);
   }
 
-  @Get()
-  findAll() {
-    return this.matchService.findAll();
+  @Get(':tournamentId/matches/:id')
+  findOne(@Param('tournamentId') tournamentId: string, @Param('id') id: string) {
+    return this.matchService.getMatch(tournamentId, id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.matchService.findOne(+id);
+  @Patch(':tournamentId/matches/:id')
+  update(
+    @Param('tournamentId') tournamentId: string,
+    @Param('id') id: string,
+    @Body() updateMatchDto: UpdateMatchDto
+  ) {
+    return this.matchService.updateMatch(tournamentId, id, updateMatchDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMatchDto: UpdateMatchDto) {
-    return this.matchService.update(+id, updateMatchDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.matchService.remove(+id);
+  @Patch(':tournamentId/matches/:id')
+  updateMatchState(
+    @Param('tournamentId') tournamentId: string,
+    @Param('id') id: string,
+    @Body() state: MatchState
+  ) {
+    return this.matchService.updateMatchState(tournamentId, id, state);
   }
 }
