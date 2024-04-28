@@ -12,6 +12,12 @@ import { CreateBulkParticipantDto, CreateParticipantDto } from './dto/create-par
 export class ParticipantService {
   constructor(private readonly _httpService: HttpService) {}
 
+  /**
+   * Create a participant in a tournament
+   * @param tournamentId the id of the tournament
+   * @param createParticipantDto the data to create a participant
+   * @returns the created participant object
+   */
   async createParticipant(tournamentId: string, createParticipantDto: CreateParticipantDto): Promise<Participants> {
     const response = this._httpService.post(
       `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants.json`,
@@ -20,6 +26,12 @@ export class ParticipantService {
     return (await firstValueFrom(response)).data;
   }
 
+  /**
+   * Create multiple participants in a tournament
+   * @param tournamentId the id of the tournament
+   * @param createParticipantDto the data to create the participants in array, the attributes property must have a participants array of CreateParticipantAttributes
+   * @returns the created participant object
+   */
   async bulkAddParticipants(
     tournamentId: string,
     createParticipantDto: CreateBulkParticipantDto
@@ -31,6 +43,11 @@ export class ParticipantService {
     return (await firstValueFrom(response)).data;
   }
 
+  /**
+   * Get all participants of a tournament
+   * @param tournamentId the id of the tournament
+   * @returns an array of participants
+   */
   async getParticipants(tournamentId: string): Promise<Participants> {
     const response = this._httpService.get(
       `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants.json`
@@ -38,6 +55,12 @@ export class ParticipantService {
     return (await firstValueFrom(response)).data;
   }
 
+  /**
+   * Get a participant of a tournament
+   * @param tournamentId the id of the tournament
+   * @param participantId the id of the participant
+   * @returns the participant object
+   */
   async getParticipant(tournamentId: string, participantId: string): Promise<Participant> {
     const response = this._httpService.get(
       `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`
@@ -45,6 +68,13 @@ export class ParticipantService {
     return (await firstValueFrom(response)).data;
   }
 
+  /**
+   * Update a participant of a tournament
+   * @param tournamentId the id of the tournament
+   * @param participantId the id of the participant
+   * @param updateParticipantDto the data to update the participant
+   * @returns the updated participant object
+   */
   async updateParticipant(
     tournamentId: string,
     participantId: string,
@@ -57,6 +87,12 @@ export class ParticipantService {
     return (await firstValueFrom(response)).data;
   }
 
+  /**
+   * Delete a participant of a tournament
+   * @param tournamentId the id of the tournament
+   * @param participantId the id of the participant
+   * @returns an empty object since it's a delete function
+   */
   async deleteParticipant(tournamentId: string, participantId: string): Promise<unknown> {
     const response = this._httpService.delete(
       `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`

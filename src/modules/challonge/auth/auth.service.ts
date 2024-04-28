@@ -68,6 +68,10 @@ export class AuthService {
     }
   }
 
+  /**
+   * Generates a string of scopes that are available for the Challonge API
+   * @returns a string of scopes that are available for the Challonge API
+   */
   private _generateScopeString() {
     const availableScopes = CHALLONGE_AVAILABLE_ACCESS_LEVEL.filter(
       (scope) => !CHALLONGE_EXCLUDED_ACCESS_LEVEL.includes(scope)
