@@ -3,14 +3,17 @@ import { HttpService } from '@nestjs/axios';
 
 import { firstValueFrom } from 'rxjs';
 
-import { CHALLONGE_API_URL_RESOURCES } from '../auth/auth.service';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
 import { Participant, Participants } from './dto/participant.response';
 import { CreateBulkParticipantDto, CreateParticipantDto } from './dto/create-participant.dto';
+import { AuthService, CHALLONGE_API_URL_RESOURCES, CHALLONGE_API_VERSION } from '../auth/auth.service';
 
 @Injectable()
 export class ParticipantService {
-  constructor(private readonly _httpService: HttpService) {}
+  constructor(
+    private readonly _authService: AuthService,
+    private readonly _httpService: HttpService
+  ) {}
 
   /**
    * Create a participant in a tournament
@@ -21,7 +24,14 @@ export class ParticipantService {
   async createParticipant(tournamentId: string, createParticipantDto: CreateParticipantDto): Promise<Participants> {
     const response = this._httpService.post(
       `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants.json`,
-      createParticipantDto
+      createParticipantDto, {
+        headers: {
+          'Authorization-Type': CHALLONGE_API_VERSION,
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${this._authService.accessToken}`,
+        },
+      }
     );
     return (await firstValueFrom(response)).data;
   }
@@ -38,7 +48,14 @@ export class ParticipantService {
   ): Promise<Participants> {
     const response = this._httpService.post(
       `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/bulk_add.json`,
-      createParticipantDto
+      createParticipantDto, {
+        headers: {
+          'Authorization-Type': CHALLONGE_API_VERSION,
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${this._authService.accessToken}`,
+        },
+      }
     );
     return (await firstValueFrom(response)).data;
   }
@@ -50,7 +67,14 @@ export class ParticipantService {
    */
   async getParticipants(tournamentId: string): Promise<Participants> {
     const response = this._httpService.get(
-      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants.json`
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants.json`, {
+        headers: {
+          'Authorization-Type': CHALLONGE_API_VERSION,
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${this._authService.accessToken}`,
+        },
+      }
     );
     return (await firstValueFrom(response)).data;
   }
@@ -63,7 +87,14 @@ export class ParticipantService {
    */
   async getParticipant(tournamentId: string, participantId: string): Promise<Participant> {
     const response = this._httpService.get(
-      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`, {
+        headers: {
+          'Authorization-Type': CHALLONGE_API_VERSION,
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${this._authService.accessToken}`,
+        },
+      }
     );
     return (await firstValueFrom(response)).data;
   }
@@ -82,7 +113,14 @@ export class ParticipantService {
   ): Promise<Participant> {
     const response = this._httpService.put(
       `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`,
-      updateParticipantDto
+      updateParticipantDto, {
+        headers: {
+          'Authorization-Type': CHALLONGE_API_VERSION,
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${this._authService.accessToken}`,
+        },
+      }
     );
     return (await firstValueFrom(response)).data;
   }
@@ -95,7 +133,14 @@ export class ParticipantService {
    */
   async deleteParticipant(tournamentId: string, participantId: string): Promise<unknown> {
     const response = this._httpService.delete(
-      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`, {
+        headers: {
+          'Authorization-Type': CHALLONGE_API_VERSION,
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${this._authService.accessToken}`,
+        },
+      }
     );
     return (await firstValueFrom(response)).data;
   }

@@ -7,24 +7,26 @@ import { Tournament } from './entities/tournament.entity';
 import { CreateTournamentDto } from './dto/create-tournament.dto';
 import { UpdateTournamentDto } from './dto/update-tournament.dto';
 import { AllTournamentsResponse } from './dto/tournament.response';
-import { AuthService, CHALLONGE_API_URL_RESOURCES } from '../auth/auth.service';
+import { AuthService, CHALLONGE_API_URL_RESOURCES, CHALLONGE_API_VERSION } from '../auth/auth.service';
 
 @Injectable()
 export class TournamentService {
-  constructor(private readonly httpService: HttpService, private readonly challongeService: AuthService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly _authService: AuthService
+  ) {}
 
   /**
    * Get all tournaments of the current application
    * @returns an array of tournaments
    */
   async getAllTournaments(): Promise<AllTournamentsResponse> {
-    const accessToken = this.challongeService.accessToken;
     const response = this.httpService.get(`${CHALLONGE_API_URL_RESOURCES}/tournaments.json`, {
       headers: {
-        'Authorization-Type': 'v2',
+        'Authorization-Type': CHALLONGE_API_VERSION,
         'Content-Type': 'application/vnd.api+json',
         Accept: 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${this._authService.accessToken}`,
       },
     });
     return (await firstValueFrom(response)).data;
@@ -36,10 +38,12 @@ export class TournamentService {
    * @returns the created tournament object
    */
   async createTournament(createTournamentDto: CreateTournamentDto): Promise<Tournament> {
-    const accessToken = this.challongeService.accessToken;
     const response = this.httpService.post(`${CHALLONGE_API_URL_RESOURCES}/tournaments.json`, createTournamentDto, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        'Authorization-Type': CHALLONGE_API_VERSION,
+        'Content-Type': 'application/vnd.api+json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${this._authService.accessToken}`,
       },
     });
     return (await firstValueFrom(response)).data;
@@ -51,13 +55,12 @@ export class TournamentService {
    * @returns the tournament object
    */
   async getTournament(id: string): Promise<Tournament> {
-    const accessToken = this.challongeService.accessToken;
     const response = this.httpService.get(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${id}.json`, {
       headers: {
-        'Authorization-Type': 'v2',
+        'Authorization-Type': CHALLONGE_API_VERSION,
         'Content-Type': 'application/vnd.api+json',
         Accept: 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${this._authService.accessToken}`,
       },
     });
     return (await firstValueFrom(response)).data;
@@ -70,13 +73,15 @@ export class TournamentService {
    * @returns the updated tournament object
    */
   async updateTournament(id: string, updateTournamentDto: UpdateTournamentDto): Promise<Tournament> {
-    const accessToken = this.challongeService.accessToken;
     const response = this.httpService.put(
       `${CHALLONGE_API_URL_RESOURCES}/tournaments/${id}.json`,
       updateTournamentDto,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          'Authorization-Type': CHALLONGE_API_VERSION,
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${this._authService.accessToken}`,
         },
       }
     );
@@ -89,10 +94,12 @@ export class TournamentService {
    * @returns an empty object since it's a delete function
    */
   async deleteTournament(id: string): Promise<unknown> {
-    const accessToken = this.challongeService.accessToken;
     const response = this.httpService.delete(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${id}.json`, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        'Authorization-Type': CHALLONGE_API_VERSION,
+        'Content-Type': 'application/vnd.api+json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${this._authService.accessToken}`,
       },
     });
     return (await firstValueFrom(response)).data;

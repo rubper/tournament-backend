@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { Match, Matches } from './dto/match.response';
 import { UpdateMatchDto } from './dto/update-match.dto';
-import { CHALLONGE_API_URL_RESOURCES } from '../auth/auth.service';
+import { AuthService, CHALLONGE_API_URL_RESOURCES, CHALLONGE_API_VERSION } from '../auth/auth.service';
 
 export enum MatchState {
   Reopen = 'reopen',
@@ -15,7 +15,10 @@ export enum MatchState {
 
 @Injectable()
 export class MatchService {
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    private _authService: AuthService
+  ) {}
 
   /**
    * Get a match's tournament
@@ -25,7 +28,14 @@ export class MatchService {
    */
   async getMatch(tournamentId: string, matchId: string): Promise<Match> {
     const response = this.httpService.get<Match>(
-      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/matches/${matchId}.json`
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/matches/${matchId}.json`, {
+        headers: {
+          'Authorization-Type': CHALLONGE_API_VERSION,
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${this._authService.accessToken}`,
+        },
+      }
     );
     return (await firstValueFrom(response)).data;
   }
@@ -37,7 +47,14 @@ export class MatchService {
    */
   async getMatches(tournamentId: string): Promise<Matches> {
     const response = this.httpService.get<Matches>(
-      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/matches.json`
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/matches.json`, {
+        headers: {
+          'Authorization-Type': CHALLONGE_API_VERSION,
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${this._authService.accessToken}`,
+        },
+      }
     );
     return (await firstValueFrom(response)).data;
   }
@@ -52,7 +69,14 @@ export class MatchService {
   async updateMatch(tournamentId: string, matchId: string, updateMatchDto: UpdateMatchDto): Promise<Match> {
     const response = this.httpService.put<Match>(
       `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/matches/${matchId}.json`,
-      updateMatchDto
+      updateMatchDto, {
+        headers: {
+          'Authorization-Type': CHALLONGE_API_VERSION,
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${this._authService.accessToken}`,
+        },
+      }
     );
     return (await firstValueFrom(response)).data;
   }
@@ -67,7 +91,15 @@ export class MatchService {
   async updateMatchState(tournamentId: string, matchId: string, state: MatchState): Promise<Match> {
     const response = this.httpService.put<Match>(
       `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/matches/${matchId}/change_state.json`,
-      { data: { type: 'MatchState', attributes: { state } } }
+      { data: { type: 'MatchState', attributes: { state } } },
+      {
+        headers: {
+          'Authorization-Type': CHALLONGE_API_VERSION,
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${this._authService.accessToken}`,
+        },
+      }
     );
     return (await firstValueFrom(response)).data;
   }
