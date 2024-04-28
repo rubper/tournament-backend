@@ -5,9 +5,9 @@ import { ChallongeAccessLevels } from './access-levels.constant';
 
 export const CHALLONGE_API_URL = 'https://api.challonge.com/v2';
 
-export const CHALLONGE_AVAILABLE_ACCESS_LEVEL: string[] = Object.values(ChallongeAccessLevels);
+export const CHALLONGE_AVAILABLE_ACCESS_LEVEL: ChallongeAccessLevels[] = Object.values(ChallongeAccessLevels);
 
-export const CHALLONGE_EXCLUDED_ACCESS_LEVEL: string[] = [];
+export const CHALLONGE_EXCLUDED_ACCESS_LEVEL: ChallongeAccessLevels[] = [];
 
 export interface ChallongeAuthResponse {
   access_token: string;
