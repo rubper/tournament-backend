@@ -5,7 +5,7 @@ export interface UpdateMatchDto {
       match: UpdateMatchDetail[];
       tie: boolean;
     };
-  }
+  };
 }
 
 export interface UpdateMatchDetail {

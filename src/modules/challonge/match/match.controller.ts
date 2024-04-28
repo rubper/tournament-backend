@@ -18,20 +18,12 @@ export class MatchController {
   }
 
   @Patch(':tournamentId/matches/:id')
-  update(
-    @Param('tournamentId') tournamentId: string,
-    @Param('id') id: string,
-    @Body() updateMatchDto: UpdateMatchDto
-  ) {
+  update(@Param('tournamentId') tournamentId: string, @Param('id') id: string, @Body() updateMatchDto: UpdateMatchDto) {
     return this.matchService.updateMatch(tournamentId, id, updateMatchDto);
   }
 
   @Patch(':tournamentId/matches/:id')
-  updateMatchState(
-    @Param('tournamentId') tournamentId: string,
-    @Param('id') id: string,
-    @Body() state: MatchState
-  ) {
+  updateMatchState(@Param('tournamentId') tournamentId: string, @Param('id') id: string, @Body() state: MatchState) {
     return this.matchService.updateMatchState(tournamentId, id, state);
   }
 }

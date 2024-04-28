@@ -13,32 +13,54 @@ export class ParticipantService {
   constructor(private readonly _httpService: HttpService) {}
 
   async createParticipant(tournamentId: string, createParticipantDto: CreateParticipantDto): Promise<Participants> {
-    const response = this._httpService.post(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants.json`, createParticipantDto);
+    const response = this._httpService.post(
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants.json`,
+      createParticipantDto
+    );
     return (await firstValueFrom(response)).data;
   }
 
-  async bulkAddParticipants(tournamentId: string, createParticipantDto: CreateBulkParticipantDto): Promise<Participants> {
-    const response = this._httpService.post(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/bulk_add.json`, createParticipantDto);
+  async bulkAddParticipants(
+    tournamentId: string,
+    createParticipantDto: CreateBulkParticipantDto
+  ): Promise<Participants> {
+    const response = this._httpService.post(
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/bulk_add.json`,
+      createParticipantDto
+    );
     return (await firstValueFrom(response)).data;
   }
 
   async getParticipants(tournamentId: string): Promise<Participants> {
-    const response = this._httpService.get(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants.json`);
+    const response = this._httpService.get(
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants.json`
+    );
     return (await firstValueFrom(response)).data;
   }
 
   async getParticipant(tournamentId: string, participantId: string): Promise<Participant> {
-    const response = this._httpService.get(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`);
+    const response = this._httpService.get(
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`
+    );
     return (await firstValueFrom(response)).data;
   }
 
-  async updateParticipant(tournamentId: string, participantId: string, updateParticipantDto: UpdateParticipantDto): Promise<Participant> {
-    const response = this._httpService.put(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`, updateParticipantDto);
+  async updateParticipant(
+    tournamentId: string,
+    participantId: string,
+    updateParticipantDto: UpdateParticipantDto
+  ): Promise<Participant> {
+    const response = this._httpService.put(
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`,
+      updateParticipantDto
+    );
     return (await firstValueFrom(response)).data;
   }
 
   async deleteParticipant(tournamentId: string, participantId: string): Promise<unknown> {
-    const response = this._httpService.delete(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`);
+    const response = this._httpService.delete(
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/participants/${participantId}.json`
+    );
     return (await firstValueFrom(response)).data;
   }
 }

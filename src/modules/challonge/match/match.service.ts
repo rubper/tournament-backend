@@ -15,21 +15,27 @@ export enum MatchState {
 
 @Injectable()
 export class MatchService {
-
   constructor(private httpService: HttpService) {}
 
   async getMatch(tournamentId: string, matchId: string) {
-    const response = this.httpService.get<Match>(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/matches/${matchId}.json`);
+    const response = this.httpService.get<Match>(
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/matches/${matchId}.json`
+    );
     return (await firstValueFrom(response)).data;
   }
 
   async getMatches(tournamentId: string) {
-    const response = this.httpService.get<Matches>(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/matches.json`);
+    const response = this.httpService.get<Matches>(
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/matches.json`
+    );
     return (await firstValueFrom(response)).data;
   }
 
   async updateMatch(tournamentId: string, matchId: string, updateMatchDto: UpdateMatchDto) {
-    const response = this.httpService.put<Match>(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/matches/${matchId}.json`, updateMatchDto);
+    const response = this.httpService.put<Match>(
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${tournamentId}/matches/${matchId}.json`,
+      updateMatchDto
+    );
     return (await firstValueFrom(response)).data;
   }
 

@@ -21,7 +21,6 @@ export interface ChallongeAuthResponse {
 
 @Injectable()
 export class AuthService {
-
   private readonly _authenticationState$ = new BehaviorSubject<ChallongeAuthResponse | undefined>(undefined);
 
   get accessToken(): string {
@@ -32,9 +31,7 @@ export class AuthService {
     return this._authenticationState$.value !== undefined;
   }
 
-  constructor(
-    private readonly configSerice: ConfigService,
-  ) {
+  constructor(private readonly configSerice: ConfigService) {
     this.authenticateApp();
   }
 
@@ -72,7 +69,9 @@ export class AuthService {
   }
 
   private _generateScopeString() {
-    const availableScopes = CHALLONGE_AVAILABLE_ACCESS_LEVEL.filter(scope => !CHALLONGE_EXCLUDED_ACCESS_LEVEL.includes(scope));
+    const availableScopes = CHALLONGE_AVAILABLE_ACCESS_LEVEL.filter(
+      (scope) => !CHALLONGE_EXCLUDED_ACCESS_LEVEL.includes(scope)
+    );
     return availableScopes.join(' ');
   }
 }

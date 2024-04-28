@@ -24,7 +24,11 @@ export class ParticipantController {
   }
 
   @Patch(':tournamentId/participants/:id')
-  update(@Param('tournamentId') tournamentId: string, @Param('id') id: string, @Body() updateParticipantDto: UpdateParticipantDto) {
+  update(
+    @Param('tournamentId') tournamentId: string,
+    @Param('id') id: string,
+    @Body() updateParticipantDto: UpdateParticipantDto
+  ) {
     return this.participantService.updateParticipant(tournamentId, id, updateParticipantDto);
   }
 

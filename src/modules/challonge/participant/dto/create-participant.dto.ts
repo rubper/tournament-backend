@@ -2,8 +2,8 @@ export interface CreateParticipantDto {
   data: {
     type: string;
     attributes: CreateParticipantAttributes;
-  }
-};
+  };
+}
 
 export interface CreateParticipantAttributes {
   name: string;
@@ -17,8 +17,8 @@ export interface CreateBulkParticipantDto {
   data: {
     type: string;
     attributes: CreateBulkParticipantAttributes;
-  }
-};
+  };
+}
 
 export interface CreateBulkParticipantAttributes {
   participants: CreateParticipantAttributes[];

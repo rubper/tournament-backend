@@ -11,10 +11,7 @@ import { AuthService, CHALLONGE_API_URL_RESOURCES } from '../auth/auth.service';
 
 @Injectable()
 export class TournamentService {
-  constructor(
-    private readonly httpService: HttpService,
-    private readonly challongeService: AuthService
-  ) {}
+  constructor(private readonly httpService: HttpService, private readonly challongeService: AuthService) {}
 
   async getAllTournaments(): Promise<AllTournamentsResponse> {
     const accessToken = this.challongeService.accessToken;
@@ -26,7 +23,7 @@ export class TournamentService {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-  return (await firstValueFrom(response)).data;
+    return (await firstValueFrom(response)).data;
   }
 
   async createTournament(createTournamentDto: CreateTournamentDto): Promise<Tournament> {
@@ -51,11 +48,15 @@ export class TournamentService {
 
   async updateTournament(id: number, updateTournamentDto: UpdateTournamentDto): Promise<Tournament> {
     const accessToken = this.challongeService.accessToken;
-    const response = this.httpService.put(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${id}.json`, updateTournamentDto, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = this.httpService.put(
+      `${CHALLONGE_API_URL_RESOURCES}/tournaments/${id}.json`,
+      updateTournamentDto,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     return (await firstValueFrom(response)).data;
   }
 
