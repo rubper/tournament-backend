@@ -5,13 +5,8 @@ import { firstValueFrom } from 'rxjs';
 
 import { Match, Matches } from './dto/match.response';
 import { UpdateMatchDto } from './dto/update-match.dto';
+import { MatchState } from 'src/constants/ch-match-state.constant';
 import { AuthService, CHALLONGE_API_URL_RESOURCES, CHALLONGE_API_VERSION } from '../auth/auth.service';
-
-export enum MatchState {
-  Reopen = 'reopen',
-  MarkAsUnderway = 'mark_as_underway',
-  UnmarkAsUnderway = 'unmark_as_underway',
-}
 
 @Injectable()
 export class MatchService {
