@@ -35,19 +35,14 @@ export interface Relationships {
 }
 
 export interface Player1 {
-  data: Data
-}
-
-export interface Data {
-  id: string
-  type: string
+  data: PlayerData
 }
 
 export interface Player2 {
-  data: Data2
+  data: PlayerData
 }
 
-export interface Data2 {
+export interface PlayerData {
   id: string
   type: string
 }
