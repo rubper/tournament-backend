@@ -1,34 +1,39 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ParticipantService } from './participant.service';
-import { CreateParticipantDto } from './dto/create-participant.dto';
+import { CreateBulkParticipantDto, CreateParticipantDto } from './dto/create-participant.dto';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
 
 @Controller('participant')
 export class ParticipantController {
   constructor(private readonly participantService: ParticipantService) {}
 
-  @Post()
-  create(@Body() createParticipantDto: CreateParticipantDto) {
-    return this.participantService.create(createParticipantDto);
+  @Post(':tournamentId/participants')
+  create(@Param('tournamentId') tournamentId: string, @Body() createParticipantDto: CreateParticipantDto) {
+    return this.participantService.createParticipant(tournamentId, createParticipantDto);
   }
 
-  @Get()
-  findAll() {
-    return this.participantService.findAll();
+  @Get(':tournamentId/participants')
+  findAll(@Param('tournamentId') tournamentId: string) {
+    return this.participantService.getParticipants(tournamentId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.participantService.findOne(+id);
+  @Get(':tournamentId/participants/:id')
+  findOne(@Param('tournamentId') tournamentId: string, @Param('id') id: string) {
+    return this.participantService.getParticipant(tournamentId, id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateParticipantDto: UpdateParticipantDto) {
-    return this.participantService.update(+id, updateParticipantDto);
+  @Patch(':tournamentId/participants/:id')
+  update(@Param('tournamentId') tournamentId: string, @Param('id') id: string, @Body() updateParticipantDto: UpdateParticipantDto) {
+    return this.participantService.updateParticipant(tournamentId, id, updateParticipantDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.participantService.remove(+id);
+  @Delete(':tournamentId/participants/:id')
+  remove(@Param('tournamentId') tournamentId: string, @Param('id') id: string) {
+    return this.participantService.deleteParticipant(tournamentId, id);
+  }
+
+  @Post(':tournamentId/participants/bulk_add')
+  bulkAdd(@Param('tournamentId') tournamentId: string, @Body() createParticipantDto: CreateBulkParticipantDto) {
+    return this.participantService.bulkAddParticipants(tournamentId, createParticipantDto);
   }
 }
