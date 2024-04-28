@@ -3,7 +3,7 @@ import { Controller, Get, Body, Patch, Param } from '@nestjs/common';
 import { UpdateMatchDto } from './dto/update-match.dto';
 import { MatchService, MatchState } from './match.service';
 
-@Controller('match')
+@Controller('tournament')
 export class MatchController {
   constructor(private readonly matchService: MatchService) {}
 

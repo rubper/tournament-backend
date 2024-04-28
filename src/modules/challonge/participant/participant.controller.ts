@@ -1,9 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ParticipantService } from './participant.service';
-import { CreateBulkParticipantDto, CreateParticipantDto } from './dto/create-participant.dto';
-import { UpdateParticipantDto } from './dto/update-participant.dto';
 
-@Controller('participant')
+import { ParticipantService } from './participant.service';
+import { UpdateParticipantDto } from './dto/update-participant.dto';
+import { CreateBulkParticipantDto, CreateParticipantDto } from './dto/create-participant.dto';
+
+@Controller('tournament')
 export class ParticipantController {
   constructor(private readonly participantService: ParticipantService) {}
 

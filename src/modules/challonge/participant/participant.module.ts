@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
+
+import { AuthModule } from '../auth/auth.module';
 import { ParticipantService } from './participant.service';
 import { ParticipantController } from './participant.controller';
-import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [AuthModule],
+  imports: [HttpModule, AuthModule],
   controllers: [ParticipantController],
   providers: [ParticipantService],
 })

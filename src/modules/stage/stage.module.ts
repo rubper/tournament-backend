@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { StageService } from './stage.service';
-import { StageController } from './stage.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { StageService } from './stage.service';
 import { Stage } from './entities/stage.entity';
+import { StageController } from './stage.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Stage])],

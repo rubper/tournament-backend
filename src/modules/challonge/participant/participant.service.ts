@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBulkParticipantDto, CreateParticipantDto } from './dto/create-participant.dto';
-import { UpdateParticipantDto } from './dto/update-participant.dto';
-import { CHALLONGE_API_URL } from '../auth/auth.service';
 import { HttpService } from '@nestjs/axios';
+
 import { firstValueFrom } from 'rxjs';
+
+import { CHALLONGE_API_URL } from '../auth/auth.service';
+import { UpdateParticipantDto } from './dto/update-participant.dto';
 import { Participant, Participants } from './dto/participant.response';
+import { CreateBulkParticipantDto, CreateParticipantDto } from './dto/create-participant.dto';
 
 @Injectable()
 export class ParticipantService {
