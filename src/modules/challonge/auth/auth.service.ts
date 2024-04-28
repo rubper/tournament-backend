@@ -3,7 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { BehaviorSubject } from 'rxjs';
 import { ChallongeAccessLevels } from './access-levels.constant';
 
-export const CHALLONGE_API_URL = 'https://api.challonge.com/v2';
+export const CHALLONGE_API_URL = 'https://api.challonge.com';
+
+export const CHALLONGE_API_URL_RESOURCES = `${CHALLONGE_API_URL}/v2`;
 
 export const CHALLONGE_AVAILABLE_ACCESS_LEVEL: ChallongeAccessLevels[] = Object.values(ChallongeAccessLevels);
 
@@ -45,7 +47,7 @@ export class AuthService {
   async authenticateApp(): Promise<ChallongeAuthResponse | undefined> {
     const clientId = this.configSerice.get('CHALLONGE_API_CLIENT_ID');
     const clientSecret = this.configSerice.get('CHALLONGE_API_CLIENT_SECRET');
-    const url = 'https://api.challonge.com/oauth/token';
+    const url = `${CHALLONGE_API_URL}/oauth/token`;
     const body = new URLSearchParams();
     body.append('grant_type', 'client_credentials');
     body.append('client_id', clientId);
