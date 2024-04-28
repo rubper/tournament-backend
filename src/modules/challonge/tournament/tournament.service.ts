@@ -50,10 +50,13 @@ export class TournamentService {
    * @param id the id of the tournament
    * @returns the tournament object
    */
-  async getTournament(id: number): Promise<Tournament> {
+  async getTournament(id: string): Promise<Tournament> {
     const accessToken = this.challongeService.accessToken;
     const response = this.httpService.get(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${id}.json`, {
       headers: {
+        'Authorization-Type': 'v2',
+        'Content-Type': 'application/vnd.api+json',
+        Accept: 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
     });
@@ -66,7 +69,7 @@ export class TournamentService {
    * @param updateTournamentDto the data to update a tournament
    * @returns the updated tournament object
    */
-  async updateTournament(id: number, updateTournamentDto: UpdateTournamentDto): Promise<Tournament> {
+  async updateTournament(id: string, updateTournamentDto: UpdateTournamentDto): Promise<Tournament> {
     const accessToken = this.challongeService.accessToken;
     const response = this.httpService.put(
       `${CHALLONGE_API_URL_RESOURCES}/tournaments/${id}.json`,
@@ -85,7 +88,7 @@ export class TournamentService {
    * @param id the id of the tournament
    * @returns an empty object since it's a delete function
    */
-  async deleteTournament(id: number): Promise<unknown> {
+  async deleteTournament(id: string): Promise<unknown> {
     const accessToken = this.challongeService.accessToken;
     const response = this.httpService.delete(`${CHALLONGE_API_URL_RESOURCES}/tournaments/${id}.json`, {
       headers: {

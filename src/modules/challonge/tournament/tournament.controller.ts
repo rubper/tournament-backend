@@ -20,16 +20,16 @@ export class TournamentController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tournamentService.getTournament(+id);
+    return this.tournamentService.getTournament(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTournamentDto: UpdateTournamentDto) {
-    return this.tournamentService.updateTournament(+id, updateTournamentDto);
+    return this.tournamentService.updateTournament(id, updateTournamentDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tournamentService.deleteTournament(+id);
+    return this.tournamentService.deleteTournament(id);
   }
 }
