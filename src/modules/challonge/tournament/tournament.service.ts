@@ -20,6 +20,9 @@ export class TournamentService {
     const accessToken = this.challongeService.accessToken;
     const response = this.httpService.get(`${CHALLONGE_API_URL}/tournaments.json`, {
       headers: {
+        'Authorization-Type': 'v2',
+        'Content-Type': 'application/vnd.api+json',
+        Accept: 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
     });

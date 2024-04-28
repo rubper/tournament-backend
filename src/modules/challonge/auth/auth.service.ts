@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { BehaviorSubject } from 'rxjs';
+import { ChallongeAccessLevels } from './access-levels.constant';
 
 export const CHALLONGE_API_URL = 'https://api.challonge.com/v2';
 
-export interface ChallongeResponse {
+export const CHALLONGE_AVAILABLE_ACCESS_LEVEL: string[] = Object.values(ChallongeAccessLevels);
+
+export const CHALLONGE_EXCLUDED_ACCESS_LEVEL: string[] = [];
+
+export interface ChallongeAuthResponse {
   access_token: string;
   token_type: string;
   expires_in: number;
@@ -15,7 +20,7 @@ export interface ChallongeResponse {
 @Injectable()
 export class AuthService {
 
-  private readonly _authenticationState$ = new BehaviorSubject<ChallongeResponse | undefined>(undefined);
+  private readonly _authenticationState$ = new BehaviorSubject<ChallongeAuthResponse | undefined>(undefined);
 
   get accessToken(): string {
     return this._authenticationState$.value?.access_token || '';
@@ -37,7 +42,7 @@ export class AuthService {
    * and makes a request to https://api.challonge.com/oauth/token to get the access token
    * using grant_type as client_credentials
    */
-  async authenticateApp(): Promise<ChallongeResponse | undefined> {
+  async authenticateApp(): Promise<ChallongeAuthResponse | undefined> {
     const clientId = this.configSerice.get('CHALLONGE_API_CLIENT_ID');
     const clientSecret = this.configSerice.get('CHALLONGE_API_CLIENT_SECRET');
     const url = 'https://api.challonge.com/oauth/token';
@@ -45,7 +50,7 @@ export class AuthService {
     body.append('grant_type', 'client_credentials');
     body.append('client_id', clientId);
     body.append('client_secret', clientSecret);
-    body.append('scope', 'application:organizer');
+    body.append('scope', this._generateScopeString());
 
     try {
       const res = await fetch(url, {
@@ -62,5 +67,10 @@ export class AuthService {
       console.error(err);
       return undefined;
     }
+  }
+
+  private _generateScopeString() {
+    const availableScopes = CHALLONGE_AVAILABLE_ACCESS_LEVEL.filter(scope => !CHALLONGE_EXCLUDED_ACCESS_LEVEL.includes(scope));
+    return availableScopes.join(' ');
   }
 }
