@@ -1,3 +1,3 @@
-import { CreateParticipantDto } from './create-participant.dto';
+import { Participant } from '../entities/participant.entity';
 
-export type UpdateParticipantDto = Partial<CreateParticipantDto>;
+export type UpdateParticipantDto = Partial<Participant>;

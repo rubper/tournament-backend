@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { CreateParticipantDto } from './dto/create-participant.dto';
+import { CreateBulkParticipantDto, CreateParticipantDto } from './dto/create-participant.dto';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
+import { CHALLONGE_API_URL } from '../auth/auth.service';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
+import { Participant, Participants } from './dto/participant.response';
 
 @Injectable()
 export class ParticipantService {
-  create(createParticipantDto: CreateParticipantDto) {
-    return 'This action adds a new participant';
+  constructor(private readonly _httpService: HttpService) {}
+
+  async createParticipant(tournamentId: string, createParticipantDto: CreateParticipantDto): Promise<Participants> {
+    const response = this._httpService.post(`${CHALLONGE_API_URL}/tournaments/${tournamentId}/participants.json`, createParticipantDto);
+    return (await firstValueFrom(response)).data;
   }
 
-  findAll() {
-    return `This action returns all participant`;
+  async bulkAddParticipants(tournamentId: string, createParticipantDto: CreateBulkParticipantDto): Promise<Participants> {
+    const response = this._httpService.post(`${CHALLONGE_API_URL}/tournaments/${tournamentId}/participants/bulk_add.json`, createParticipantDto);
+    return (await firstValueFrom(response)).data;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} participant`;
+  async getParticipants(tournamentId: string): Promise<Participants> {
+    const response = this._httpService.get(`${CHALLONGE_API_URL}/tournaments/${tournamentId}/participants.json`);
+    return (await firstValueFrom(response)).data;
   }
 
-  update(id: number, updateParticipantDto: UpdateParticipantDto) {
-    return `This action updates a #${id} participant`;
+  async getParticipant(tournamentId: string, participantId: string): Promise<Participant> {
+    const response = this._httpService.get(`${CHALLONGE_API_URL}/tournaments/${tournamentId}/participants/${participantId}.json`);
+    return (await firstValueFrom(response)).data;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} participant`;
+  async updateParticipant(tournamentId: string, participantId: string, updateParticipantDto: UpdateParticipantDto): Promise<Participant> {
+    const response = this._httpService.put(`${CHALLONGE_API_URL}/tournaments/${tournamentId}/participants/${participantId}.json`, updateParticipantDto);
+    return (await firstValueFrom(response)).data;
+  }
+
+  async deleteParticipant(tournamentId: string, participantId: string): Promise<unknown> {
+    const response = this._httpService.delete(`${CHALLONGE_API_URL}/tournaments/${tournamentId}/participants/${participantId}.json`);
+    return (await firstValueFrom(response)).data;
   }
 }
