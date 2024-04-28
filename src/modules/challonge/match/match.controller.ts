@@ -1,7 +1,8 @@
 import { Controller, Get, Body, Patch, Param } from '@nestjs/common';
 
+import { MatchService } from './match.service';
 import { UpdateMatchDto } from './dto/update-match.dto';
-import { MatchService, MatchState } from './match.service';
+import { MatchState } from 'src/constants/ch-match-state.constant';
 
 @Controller('tournament')
 export class MatchController {
